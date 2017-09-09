@@ -1,0 +1,12 @@
+# 系统文件
+/*.iml
+
+#.idea目录
+/.idea/
+
+#target目录
+/target/
+
+#test目录
+/src/test/
+
