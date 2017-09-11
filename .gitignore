@@ -8,7 +8,7 @@
 /target/
 
 #test目录
-/src/test/
+#/src/test/
 
 #本地配置文件
 #/application-dev.properties
