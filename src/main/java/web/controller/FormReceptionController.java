@@ -1,5 +1,6 @@
 package web.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,14 +13,19 @@ import web.common.RequestData;
  */
 @Controller
 public class FormReceptionController {
+    private static Logger logger = Logger.getLogger(FormReceptionController.class);
 
     @RequestMapping(value = "/hello")
     @ResponseBody
-    public String Hello(){return "hello form!";}
+    public String Hello(){
+        logger.info("hello界面");
+        return "hello form!";
+    }
 
     @RequestMapping(value = "/formSubmitting")
     @ResponseBody
     public String FormReceive(@RequestBody RequestData requestData){
-        return "";
+        logger.info("收到的表单数据：" + requestData.toString());
+        return "success!";
     }
 }

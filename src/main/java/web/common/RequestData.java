@@ -31,4 +31,14 @@ public class RequestData {
 
     public void setPlace(String place){this.place=place;}
     public String getPlace(){return this.place;}
+
+    @Override
+    public String toString(){
+        return "{" +
+                "name:" + this.name + "," +
+                "reason:" + this.reason + "," +
+                "duration:" + this.duration + "," +
+                "place:" + this.place +
+                "}";
+    }
 }

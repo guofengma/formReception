@@ -10,3 +10,5 @@
 #test目录
 /src/test/
 
+#本地配置文件
+/src/main/resources/application.properties
