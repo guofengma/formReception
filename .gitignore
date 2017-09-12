@@ -12,3 +12,5 @@
 
 #本地配置文件
 #/application-dev.properties
+
+/out/

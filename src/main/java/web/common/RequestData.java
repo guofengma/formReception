@@ -6,19 +6,29 @@ package web.common;
  * 接收的请求参数类
  */
 public class RequestData {
+    private String date;//加班日期
+    private String department;//部门
     private String name;//姓名
     private String reason;//加班缘由
-    private String duration;//加班时长
+    private String duration;//加班时长（单位：小时）
     private String place;//加班地点
 
     public RequestData(){}
 
-    public RequestData(String name, String reason, String duration, String place){
+    public RequestData(String date, String department, String name, String reason, String duration, String place){
+        this.date=date;
+        this.department=department;
         this.name=name;
         this.reason=reason;
         this.duration=duration;
         this.place=place;
     }
+
+    public void setDate(String date){this.date=date;}
+    public String getDate(){return this.date;}
+
+    public void setDepartment(String department){this.department=department;}
+    public String getDepartment(){return this.department;}
 
     public void setName(String name){this.name=name;}
     public String getName(){return this.name;}
@@ -35,6 +45,8 @@ public class RequestData {
     @Override
     public String toString(){
         return "{" +
+                "date:" + this.date + "," +
+                "department:" + this.department + "," +
                 "name:" + this.name + "," +
                 "reason:" + this.reason + "," +
                 "duration:" + this.duration + "," +
