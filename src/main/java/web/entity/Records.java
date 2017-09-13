@@ -4,10 +4,12 @@ import javax.persistence.*;
 
 /**
  * Created by qaa on 2017/9/11.
+ * @author zhaoqing
+ * 对应数据库中的records表的实体类
  */
 @Entity
 @Table(name = "records")
-public class RecordsOfOvertime {
+public class Records {
     @Id
     @GeneratedValue
     private long id;
@@ -30,11 +32,11 @@ public class RecordsOfOvertime {
     @Column(nullable = false)
     private String place;
 
-    public RecordsOfOvertime(){
+    public Records(){
     }
 
-    public RecordsOfOvertime(String department, String name, String reason,
-                             float duration, String date, String place){
+    public Records(String department, String name, String reason,
+                   float duration, String date, String place){
         this.department = department;
         this.name = name;
         this.reason = reason;
