@@ -1,5 +1,7 @@
 package web.entity;
 
+import jdk.nashorn.internal.parser.JSONParser;
+
 import javax.persistence.*;
 
 /**
@@ -45,4 +47,72 @@ public class Records {
         this.place = place;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public float getDuration() {
+        return duration;
+    }
+
+    public void setDuration(float duration) {
+        this.duration = duration;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    @Override
+    public String toString() {
+        return "Records{" +
+                "id=" + id +
+                ", department='" + department + '\'' +
+                ", name='" + name + '\'' +
+                ", reason='" + reason + '\'' +
+                ", duration=" + duration +
+                ", date='" + date + '\'' +
+                ", place='" + place + '\'' +
+                '}';
+    }
 }

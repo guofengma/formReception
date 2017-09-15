@@ -34,6 +34,7 @@ public class FormReceptionController {
         return "hello form!";
     }
 
+    //接收表单信息并更新或插入数据
     @RequestMapping(value = "/formSubmitting")
     @ResponseBody
     public int FormReceive(@RequestBody RequestData requestData){
@@ -41,7 +42,7 @@ public class FormReceptionController {
 
         //参数检查
         try{
-            //检查所给参数空缺
+            //检查所给参数是否空缺，空缺则返回相应的错误
             Field[] fields = requestData.getClass().getDeclaredFields();
             for (int i=0;i<fields.length;i++){
                 Field f = fields[i];
@@ -67,6 +68,7 @@ public class FormReceptionController {
 
 
         try {
+            //获取传入参数中各个字段的值并赋给一个Records对象
             String department = requestData.getDepartment();
             String name = requestData.getName();
             String reason = requestData.getReason();
@@ -74,11 +76,29 @@ public class FormReceptionController {
             String date = requestData.getDate();
             String place = requestData.getPlace();
             Records records = new Records(department, name, reason, duration, date, place);
+
+            /*
+            *根据name和date查询数据库中已有记录
+            *如果数据库中已有记录，则执行更新操作；否则，执行新增操作。
+             */
+            try {
+                Records record = recordsDao.findByNameAndDate(name,date);
+                if(record!=null){
+                    logger.info("数据库中已有记录：" + record.toString());
+                    records.setId(record.getId());
+                }
+            }catch (Exception exc){
+                logger.error("sql select error: " + exc.getMessage());
+                return CODE.SYSTEM_ERROR;
+            }
+
             recordsDao.save(records);//向数据库插入一条数据
         }catch (Exception exc){
-            logger.error("sql error:" + exc.getMessage());
+            logger.error("sql save error:" + exc.getMessage());
             return CODE.SYSTEM_ERROR;
         }
         return CODE.SUCCESS;
     }
+
+
 }
