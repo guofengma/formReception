@@ -13,6 +13,8 @@
 
     <properties>
         <start-class>web.Application</start-class>
+        <skipTests>true</skipTests>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <parent>
@@ -31,7 +33,7 @@
        <dependency>
            <groupId>org.springframework.boot</groupId>
            <artifactId>spring-boot-starter-tomcat</artifactId>
-           <!--<scope>provided</scope>-->
+           <scope>provided</scope>
        </dependency>
 
        <!--spring jpa-->

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.common.RequestData;
+import web.constant.DURATION;
+import web.constant.NAME;
 import web.entity.Records;
 import web.dao.RecordsDao;
 import web.constant.CODE;
@@ -34,7 +36,7 @@ public class FormReceptionController {
         return "hello form!";
     }
 
-    //接收表单信息并更新或插入数据
+    //接收表单信息并存入mysql
     @RequestMapping(value = "/formSubmitting")
     @ResponseBody
     public int FormReceive(@RequestBody RequestData requestData){
@@ -49,7 +51,6 @@ public class FormReceptionController {
                 f.setAccessible(true);
                 Method m = requestData.getClass().getMethod("get" + f.getName().substring(0,1).toUpperCase() + f.getName().substring(1));
                 String value = (String) m.invoke(requestData);
-//                logger.info(f.getName() + ": " + value);
                 if (StringUtils.isBlank(value)){
                     logger.error(f.getName() + " is null.");
                     return CODE.CODEMAP.get(f.getName());
@@ -69,12 +70,14 @@ public class FormReceptionController {
 
         try {
             //获取传入参数中各个字段的值并赋给一个Records对象
-            String department = requestData.getDepartment();
-            String name = requestData.getName();
-            String reason = requestData.getReason();
-            float duration = Float.parseFloat(requestData.getDuration());
-            String date = requestData.getDate();
-            String place = requestData.getPlace();
+            String department = requestData.getDepartment();//部门
+            int nameIndex = Integer.parseInt(requestData.getName());//姓名
+            String name = NAME.NAMES[nameIndex];
+            String reason = requestData.getReason();//加班缘由
+            int durationIndex = Integer.parseInt(requestData.getDuration());//加班时长
+            float duration = Float.parseFloat(DURATION.DURATIONS[durationIndex]);
+            String date = requestData.getDate();//加班日期
+            String place = requestData.getPlace();//加班地点
             Records records = new Records(department, name, reason, duration, date, place);
 
             /*
@@ -91,7 +94,6 @@ public class FormReceptionController {
                 logger.error("sql select error: " + exc.getMessage());
                 return CODE.SYSTEM_ERROR;
             }
-
             recordsDao.save(records);//向数据库插入一条数据
         }catch (Exception exc){
             logger.error("sql save error:" + exc.getMessage());
