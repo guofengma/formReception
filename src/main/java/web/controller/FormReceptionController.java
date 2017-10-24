@@ -14,9 +14,12 @@ import web.constant.NAME;
 import web.entity.Records;
 import web.dao.RecordsDao;
 import web.constant.CODE;
+import web.service.OnLoginService;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -27,19 +30,30 @@ public class FormReceptionController {
     @Autowired
     private RecordsDao recordsDao;
 
+    @Autowired
+    private OnLoginService onLoginService;
+
     private static Logger logger = Logger.getLogger(FormReceptionController.class);
 
     @RequestMapping(value = "/hello")
     @ResponseBody
-    public String Hello(){
+    public String hello(){
         logger.info("hello界面");
         return "hello form!";
+    }
+
+    //在用户登录时使用登录凭证 code 获取 session_key 和 openid
+    @RequestMapping(value = "/onLogin")
+    @ResponseBody
+    public String onLogin(@RequestBody RequestData requestData) throws Exception{
+        String localSessionKey = onLoginService.onLogin(requestData.getCode());
+        return localSessionKey;
     }
 
     //接收表单信息并存入mysql
     @RequestMapping(value = "/formSubmitting")
     @ResponseBody
-    public int FormReceive(@RequestBody RequestData requestData){
+    public int formReceive(@RequestBody RequestData requestData){
         logger.info("收到的表单数据：" + requestData.toString());
 
         //参数检查

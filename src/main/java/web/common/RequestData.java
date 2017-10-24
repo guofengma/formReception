@@ -13,6 +13,8 @@ public class RequestData {
     private String duration;//加班时长（单位：小时）
     private String place;//加班地点
 
+    private String code;//js_code
+
     public RequestData(){}
 
     public RequestData(String date, String department, String name, String reason, String duration, String place){
@@ -41,6 +43,14 @@ public class RequestData {
 
     public void setPlace(String place){this.place=place;}
     public String getPlace(){return this.place;}
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     @Override
     public String toString(){
