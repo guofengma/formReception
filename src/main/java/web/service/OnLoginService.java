@@ -35,7 +35,7 @@ public class OnLoginService {
         JSONObject jsonObject = new JSONObject(res.content);
         String openId = (String) jsonObject.get("openid");
         String sessionKey = (String) jsonObject.get("session_key");
-        String expireIn = (String) jsonObject.get("expires_in");
+        Integer expireIn = (Integer) jsonObject.get("expires_in");
         LoginData loginData = new LoginData(openId,sessionKey,expireIn);
 
         String localSessionKey =  DigestUtils.md5Hex(appId + openId);//生成自己的sessionkey
