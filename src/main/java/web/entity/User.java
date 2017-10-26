@@ -19,6 +19,8 @@ public class User {
 
     private String name;
 
+    public User(){}
+
     public User(String openId, String name) {
         this.openId = openId;
         this.name = name;

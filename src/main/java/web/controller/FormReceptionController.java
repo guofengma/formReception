@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.common.LoginData;
+import web.common.NameRequestData;
 import web.common.OverTimeRecord;
 import web.common.SessionKey;
 import web.constant.DURATION;
@@ -53,11 +54,46 @@ public class FormReceptionController {
     @RequestMapping(value = "/onLogin")
     @ResponseBody
     public String onLogin(@RequestBody String requestdata) throws Exception{
+        logger.info("++++++++++++++++++++++++++++用户登录+++++++++++++++++++++++++++++++");
         logger.info("requestdata:" + requestdata);
         JSONObject jsonObject = new JSONObject(requestdata);
         String code = (String) jsonObject.get("code");
         String sessionKey = onLoginService.onLogin(code);
         return sessionKey;
+    }
+
+    //查询已绑定的姓名
+    @RequestMapping(value = "/getName")
+    @ResponseBody
+    public String getName(@RequestBody String sessionKey) throws Exception{
+        String curMethod = "getName";
+        logger.info(curMethod + ":" + sessionKey);
+        try {
+            logger.info(new JSONObject(sessionKey).get("sessionKey"));
+            LoginData userData = SessionKey.SessionsMap.get(new JSONObject(sessionKey).get("sessionKey"));
+            logger.info("用户信息：" + userData);
+            return userService.getName(userData.getOpenId());
+        }catch (Exception exc){
+            logger.error(curMethod + " Excption: " + exc.getMessage());
+            return "";
+        }
+    }
+
+    //openid与姓名绑定
+    @RequestMapping(value = "/setName")
+    @ResponseBody
+    public int setName(@RequestBody NameRequestData setNameRequestData) throws Exception{
+        String curMethod = "setName";
+        logger.info(curMethod  +  ": " + setNameRequestData);
+        try {
+            LoginData userData = SessionKey.SessionsMap.get(setNameRequestData.getLocalSessionKey());
+            userService.updateUser(userData.getOpenId(),setNameRequestData.getName());
+            return CODE.SUCCESS;
+        }catch (Exception exc){
+            logger.error(curMethod + " excption:" + exc.getMessage());
+            return CODE.SYSTEM_ERROR;
+        }
+
     }
 
     //接收表单信息并存入mysql

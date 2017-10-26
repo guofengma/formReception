@@ -23,6 +23,7 @@ public class UserService {
      * @param name
      */
     public void updateUser(String openId, String name){
+        String curMethod = "updateUser";
         User userFrom = new User(openId,name);
         User user = null;
         try {
@@ -35,8 +36,18 @@ public class UserService {
                 logger.info("[from mysql] openid:" + user.getOpenId() + ".name:" + user.getName());
             }
         }catch (Exception exc){
-            logger.error("sql exception:" + exc.getMessage());
+            logger.error(curMethod + "sql exception:" + exc.getMessage());
         }
+    }
 
+    public String getName(String openId){
+        String curMethod = "getName";
+        try {
+            User user = userDao.getNameByOpenId(openId);
+            return user.getName();
+        }catch (Exception exc){
+            logger.error(curMethod + "sql Exception:" + exc.getMessage());
+            return null;
+        }
     }
 }

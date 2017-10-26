@@ -31,7 +31,7 @@ public class FormReceptionControllerTest {
     @Test
     public void formReceive() throws Exception {
         String url = baseUrl + "/formSubmitting";
-        String jsonData = "{\"date\":\"2017-09-11\",\"department\":\"计算机学院\",\"name\":\"周周\",\"reason\":\"微信小程序制作\",\"duration\":\"3\",\"place\":\"四川大学望江校区\"}";
+        String jsonData = "{\"date\":\"2017-10-26\",\"department\":\"计算机学院\",\"name\":\"24\",\"reason\":\"小程序测试\",\"duration\":\"3\",\"place\":\"四川大学望江校区\"}";
         System.out.println(jsonData);
         String response = HttpRequest.sendPost(url,jsonData);
         System.out.println(response);

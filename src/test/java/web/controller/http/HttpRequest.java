@@ -87,6 +87,7 @@ public class HttpRequest {
             // 打开和URL之间的连接
             URLConnection conn = realUrl.openConnection();
 
+            conn.setRequestProperty("Session-Key","d424b329f94782ecaa35f740716575b2");
             // 设置通用的请求属性
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("accept", "*/*");

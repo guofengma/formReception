@@ -10,4 +10,5 @@ import web.entity.User;
 @Repository
 public interface UserDao extends JpaRepository<User, Integer> {
     User getByOpenIdAndName(String openId, String name);
+    User getNameByOpenId(String openId);
 }

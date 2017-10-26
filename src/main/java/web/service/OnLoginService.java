@@ -1,6 +1,7 @@
 package web.service;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import web.common.LoginData;
@@ -16,6 +17,8 @@ import java.util.Map;
  */
 @Service("OnLoginService")
 public class OnLoginService {
+    private Logger logger = Logger.getLogger(OnLoginService.class);
+
     ////在用户登录时使用登录凭证 code 获取 session_key 和 openid
     public String onLogin(String code) throws Exception{
         String baseUrl = "https://api.weixin.qq.com/sns/jscode2session";
@@ -38,8 +41,11 @@ public class OnLoginService {
         Integer expireIn = (Integer) jsonObject.get("expires_in");
         LoginData loginData = new LoginData(openId,sessionKey,expireIn);
 
+        logger.info("用户信息：" + loginData);
+
         String localSessionKey =  DigestUtils.md5Hex(appId + openId);//生成自己的sessionkey
         SessionKey.SessionsMap.put(localSessionKey,loginData);//存入全局map
+        logger.info("已存入SessionsMap" + ",key:" + localSessionKey + ",value:" + loginData);
 
         return localSessionKey;
     }
