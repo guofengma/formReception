@@ -8,6 +8,9 @@ public class NameRequestData {
     private String localSessionKey;//本地session-key
     private String name;//用户姓名
 
+    public NameRequestData() {
+    }
+
     public NameRequestData(String localSessionKey, String name) {
         this.localSessionKey = localSessionKey;
         this.name = name;
