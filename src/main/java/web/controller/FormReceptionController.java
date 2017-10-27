@@ -108,7 +108,8 @@ public class FormReceptionController {
         logger.info("用户信息：" + userData);
 
         //如果是新用户，则插入数据库
-        userService.updateUser(userData.getOpenId(),NAME.NAMES[Integer.parseInt(overTimeRecord.getName())]);
+//        userService.updateUser(userData.getOpenId(),NAME.NAMES[Integer.parseInt(overTimeRecord.getName())]);
+        userService.updateUser(userData.getOpenId(),overTimeRecord.getName());
 
         //参数检查
         try{
@@ -139,8 +140,12 @@ public class FormReceptionController {
         try {
             //获取传入参数中各个字段的值并赋给一个Records对象
             String department = overTimeRecord.getDepartment();//部门
-            int nameIndex = Integer.parseInt(overTimeRecord.getName());//姓名
-            String name = NAME.NAMES[nameIndex];
+
+//            int nameIndex = Integer.parseInt(overTimeRecord.getName());//姓名
+//            String name = NAME.NAMES[nameIndex];
+
+            String name = overTimeRecord.getName();
+
             String reason = overTimeRecord.getReason();//加班缘由
             int durationIndex = Integer.parseInt(overTimeRecord.getDuration());//加班时长
             float duration = Float.parseFloat(DURATION.DURATIONS[durationIndex]);
