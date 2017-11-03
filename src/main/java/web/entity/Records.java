@@ -1,8 +1,11 @@
 package web.entity;
 
 import jdk.nashorn.internal.parser.JSONParser;
+import org.apache.commons.httpclient.util.DateUtil;
+import web.utils.TimeUtil;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by qaa on 2017/9/11.
@@ -34,17 +37,23 @@ public class Records {
     @Column(nullable = false)
     private String place;
 
+    private String openId;
+
+    private String submitTime = TimeUtil.nowTime("YYYY-MM-dd HH:mm:ss");//提交时间
+
     public Records(){
     }
 
     public Records(String department, String name, String reason,
-                   float duration, String date, String place){
+                   float duration, String date, String place, String openId){
         this.department = department;
         this.name = name;
         this.reason = reason;
         this.duration = duration;
         this.date = date;
         this.place = place;
+        this.openId = openId;
+        this.submitTime = TimeUtil.nowTime("YYYY-MM-dd HH:mm:ss");
     }
 
     public long getId() {
@@ -103,6 +112,14 @@ public class Records {
         this.place = place;
     }
 
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
     @Override
     public String toString() {
         return "Records{" +
@@ -113,6 +130,8 @@ public class Records {
                 ", duration=" + duration +
                 ", date='" + date + '\'' +
                 ", place='" + place + '\'' +
+                ", submitTime='" + submitTime + '\'' +
                 '}';
     }
+
 }

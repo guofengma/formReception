@@ -3,6 +3,7 @@ package web.service;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import web.constant.CODE;
 import web.dao.UserDao;
 import web.entity.User;
 
@@ -24,13 +25,13 @@ public class UserService {
      */
     public void updateUser(String openId, String name){
         String curMethod = "updateUser";
-        User userFrom = new User(openId,name);
+        User userForm = new User(openId,name);
         User user = null;
         try {
             user =  userDao.getByOpenIdAndName(openId, name);
             if (null == user){
                 logger.info("新用户>>openid:" + openId + ",name:" + name);
-                userDao.save(userFrom);
+                userDao.save(userForm);
             }else {
                 logger.info("用户已存在");
                 logger.info("[from mysql] openid:" + user.getOpenId() + ".name:" + user.getName());
@@ -44,10 +45,36 @@ public class UserService {
         String curMethod = "getName";
         try {
             User user = userDao.getNameByOpenId(openId);
+            if (null == user){
+                return null;
+            }
             return user.getName();
         }catch (Exception exc){
             logger.error(curMethod + "sql Exception:" + exc.getMessage());
             return null;
+        }
+    }
+
+    /**
+     * 修改姓名
+     * 如果传入的openId在数据库中有记录，则更新对应的name;否则，将传入的openId和name作为新纪录增添至user表
+     * @param openId
+     * @param name
+     */
+    public int modifyName(String openId, String name){
+        String curMethod = "modifyName";
+
+        User user = new User(openId,name);
+        try {
+            User userExist = userDao.getNameByOpenId(openId);
+            if (null != userExist){
+                user.setId(userExist.getId());
+            }
+            userDao.save(user);
+            return CODE.SUCCESS;
+        }catch (Exception exc){
+            logger.error(curMethod + "sql excption: " + exc.getMessage());
+            return CODE.SYSTEM_ERROR;
         }
     }
 }

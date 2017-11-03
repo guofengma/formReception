@@ -96,6 +96,21 @@ public class FormReceptionController {
 
     }
 
+    //修改姓名
+    @RequestMapping(value = "/modifyName")
+    @ResponseBody
+    public int modifyName(@RequestBody NameRequestData nameRequestData){
+        String curMethod = "/modifyName";
+        logger.info(curMethod + "传入参数：" + nameRequestData);
+        try {
+            LoginData userData = SessionKey.SessionsMap.get(nameRequestData.getLocalSessionKey());
+            return userService.modifyName(userData.getOpenId(),nameRequestData.getName());
+        }catch (Exception exc){
+            logger.error(curMethod + " excption:" + exc.getMessage());
+            return CODE.SYSTEM_ERROR;
+        }
+    }
+
     //接收表单信息并存入mysql
     @RequestMapping(value = "/formSubmitting")
     @ResponseBody
@@ -106,10 +121,10 @@ public class FormReceptionController {
         logger.info("Session-key:" + sessionKey);
         LoginData userData = SessionKey.SessionsMap.get(sessionKey);
         logger.info("用户信息：" + userData);
+        String openId = userData.getOpenId();
 
-        //如果是新用户，则插入数据库
-//        userService.updateUser(userData.getOpenId(),NAME.NAMES[Integer.parseInt(overTimeRecord.getName())]);
-        userService.updateUser(userData.getOpenId(),overTimeRecord.getName());
+//        userService.updateUser(userData.getOpenId(),overTimeRecord.getName());
+
 
         //参数检查
         try{
@@ -140,25 +155,21 @@ public class FormReceptionController {
         try {
             //获取传入参数中各个字段的值并赋给一个Records对象
             String department = overTimeRecord.getDepartment();//部门
-
-//            int nameIndex = Integer.parseInt(overTimeRecord.getName());//姓名
-//            String name = NAME.NAMES[nameIndex];
-
-            String name = overTimeRecord.getName();
-
+            String name = overTimeRecord.getName();//姓名
             String reason = overTimeRecord.getReason();//加班缘由
             int durationIndex = Integer.parseInt(overTimeRecord.getDuration());//加班时长
             float duration = Float.parseFloat(DURATION.DURATIONS[durationIndex]);
             String date = overTimeRecord.getDate();//加班日期
             String place = overTimeRecord.getPlace();//加班地点
-            Records records = new Records(department, name, reason, duration, date, place);
+            Records records = new Records(department, name, reason, duration, date, place,openId);
 
             /*
-            *根据name和date查询数据库中已有记录
+            *根据openId和date查询数据库中已有记录
             *如果数据库中已有记录，则执行更新操作；否则，执行新增操作。
              */
             try {
-                Records record = recordsDao.findByNameAndDate(name,date);
+//                Records record = recordsDao.findByNameAndDate(name,date);
+                Records record = recordsDao.findByOpenIdAndDate(openId,date);
                 if(record!=null){
                     logger.info("数据库中已有记录：" + record.toString());
                     records.setId(record.getId());

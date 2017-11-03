@@ -11,4 +11,5 @@ import web.entity.Records;
 @Repository
 public interface RecordsDao extends JpaRepository<Records, Integer>{
     Records findByNameAndDate(String name, String date);//通过name和date查询records表中的记录
+    Records findByOpenIdAndDate(String openId, String date);
 }
