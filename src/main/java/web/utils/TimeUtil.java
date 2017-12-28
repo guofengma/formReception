@@ -9,15 +9,15 @@ import java.util.Date;
  * 用于常见的时间操作
  */
 public class TimeUtil {
-    private static Calendar calendar = Calendar.getInstance();
 
-    public static void main(String args[]){
-        System.out.println(calendar.getTime());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        System.out.println(simpleDateFormat.format(calendar.getTime()));
-    }
+//    public static void main(String args[]){
+//        System.out.println(calendar.getTime());
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+//        System.out.println(simpleDateFormat.format(calendar.getTime()));
+//    }
 
     public static String nowTime(String dateFormat){
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         return simpleDateFormat.format(calendar.getTime());
     }

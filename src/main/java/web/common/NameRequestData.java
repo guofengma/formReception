@@ -11,6 +11,7 @@ public class NameRequestData {
     public NameRequestData() {
     }
 
+
     public NameRequestData(String localSessionKey, String name) {
         this.localSessionKey = localSessionKey;
         this.name = name;

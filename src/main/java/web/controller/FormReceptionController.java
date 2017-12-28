@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.common.LoginData;
@@ -24,6 +25,7 @@ import web.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -47,6 +49,22 @@ public class FormReceptionController {
     public String hello(){
         logger.info("hello界面");
         return "hello form!";
+    }
+
+    /**
+     * 从服务器同步某月某用户提交的加班记录
+     * @param date
+     * @return
+     */
+    @RequestMapping(value = "/download")
+    @ResponseBody
+    public List<Records> getAllRecords(@RequestParam String date, HttpServletRequest request) {
+        String sessionKey = request.getHeader("Session-Key");
+        logger.debug("Session-key:" + sessionKey);
+        LoginData userData = SessionKey.SessionsMap.get(sessionKey);
+        logger.info("用户信息：" + userData);
+        String openId = userData.getOpenId();
+        return recordsDao.findByOpenIdAndDateLike(openId, date.substring(0,8) + "%");
     }
 
 
