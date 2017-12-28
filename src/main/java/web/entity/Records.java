@@ -1,11 +1,9 @@
 package web.entity;
 
-import jdk.nashorn.internal.parser.JSONParser;
-import org.apache.commons.httpclient.util.DateUtil;
+
 import web.utils.TimeUtil;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * Created by qaa on 2017/9/11.
@@ -118,6 +116,10 @@ public class Records {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public String getSubmitTime() {
+        return submitTime;
     }
 
     @Override
