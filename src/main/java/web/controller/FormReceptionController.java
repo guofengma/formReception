@@ -20,6 +20,7 @@ import web.entity.Records;
 import web.dao.RecordsDao;
 import web.constant.CODE;
 import web.service.OnLoginService;
+import web.service.RecordsService;
 import web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ import java.util.regex.Pattern;
 @Controller
 public class FormReceptionController {
     @Autowired
-    private RecordsDao recordsDao;
+    private RecordsService recordsService;
 
     @Autowired
     private OnLoginService onLoginService;
@@ -51,6 +52,35 @@ public class FormReceptionController {
         return "hello form!";
     }
 
+
+    /**
+     * 删除某微信号某个日期的加班记录
+     * @param date
+     * @param request
+     * @return 0(删除成功);1(删除失败)
+     */
+    @RequestMapping(value = "/deleteRecord")
+    @ResponseBody
+    public String deleteRecord(@RequestParam String date, HttpServletRequest request){
+        String sessionKey = request.getHeader("Session-Key");
+        logger.debug("Session-key:" + sessionKey);
+        LoginData userData = SessionKey.SessionsMap.get(sessionKey);
+        logger.info("用户信息：" + userData);
+        String openId = userData.getOpenId();
+        try {
+            Records records = recordsService.findByOpenIdAndDate(openId, date);
+            if (records != null){
+                recordsService.delete(records.getId());
+                logger.info("已删除记录:"+ records);
+            }
+            return "0";//删除成功，返回"0"
+        }catch (Exception exc){
+            logger.error("删除记录出错,open_id:" + openId + ",date:" + date);
+            logger.error("报错信息：" + exc.getMessage());
+            return "1";//删除失败,返回"1"
+        }
+    }
+
     /**
      * 从服务器同步某月某用户提交的加班记录
      * @param date
@@ -64,7 +94,7 @@ public class FormReceptionController {
         LoginData userData = SessionKey.SessionsMap.get(sessionKey);
         logger.info("用户信息：" + userData);
         String openId = userData.getOpenId();
-        return recordsDao.findByOpenIdAndDateLike(openId, date.substring(0,8) + "%");
+        return recordsService.findByOpenIdAndDateLike(openId, date.substring(0,8) + "%");
     }
 
 
@@ -187,7 +217,7 @@ public class FormReceptionController {
              */
             try {
 //                Records record = recordsDao.findByNameAndDate(name,date);
-                Records record = recordsDao.findByOpenIdAndDate(openId,date);
+                Records record = recordsService.findByOpenIdAndDate(openId,date);
                 if(record!=null){
                     logger.info("数据库中已有记录：" + record.toString());
                     records.setId(record.getId());
@@ -196,7 +226,7 @@ public class FormReceptionController {
                 logger.error("sql select error: " + exc.getMessage());
                 return CODE.SYSTEM_ERROR;
             }
-            recordsDao.save(records);//向数据库插入一条数据
+            recordsService.save(records);//向数据库插入一条数据
         }catch (Exception exc){
             logger.error("sql save error:" + exc.getMessage());
             return CODE.SYSTEM_ERROR;
