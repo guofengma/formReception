@@ -6,5 +6,7 @@
 	duration FLOAT NOT NULL,
 	date DATE NOT NULL,
 	place VARCHAR(200) NOT NULL,
+	open_id VARCHAR(100),
+	submit_time DATETIME,
 	PRIMARY KEY(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -30,8 +30,8 @@ public class UserService {
         try {
             user =  userDao.getByOpenIdAndName(openId, name);
             if (null == user){
-                logger.info("新用户>>openid:" + openId + ",name:" + name);
-                userDao.save(userForm);
+                    logger.info("新用户>>openid:" + openId + ",name:" + name);
+                    userDao.save(userForm);
             }else {
                 logger.info("用户已存在");
                 logger.info("[from mysql] openid:" + user.getOpenId() + ".name:" + user.getName());

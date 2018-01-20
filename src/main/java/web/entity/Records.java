@@ -37,7 +37,7 @@ public class Records {
 
     private String openId;
 
-    private String submitTime = TimeUtil.nowTime("YYYY-MM-dd HH:mm:ss");//提交时间
+    private String submitTime;//提交时间
 
     public Records(){
     }

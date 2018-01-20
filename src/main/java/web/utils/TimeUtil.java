@@ -13,7 +13,6 @@ import java.util.List;
  * 用于常见的时间操作
  */
 public class TimeUtil {
-    private static Calendar calendar = Calendar.getInstance();
 
     static class OOMObject{}
 
@@ -33,6 +32,7 @@ public class TimeUtil {
     }
 
     public static String nowTime(String dateFormat){
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         return simpleDateFormat.format(calendar.getTime());
     }
