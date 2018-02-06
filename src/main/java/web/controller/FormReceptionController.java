@@ -15,15 +15,16 @@ import web.common.NameRequestData;
 import web.common.OverTimeRecord;
 import web.common.SessionKey;
 import web.constant.DURATION;
-import web.constant.NAME;
 import web.entity.Records;
-import web.dao.RecordsDao;
 import web.constant.CODE;
+import web.schedule.SendRecordsByMail;
 import web.service.OnLoginService;
 import web.service.RecordsService;
 import web.service.UserService;
+import web.utils.TimeUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -50,6 +51,19 @@ public class FormReceptionController {
     public String hello(){
         logger.info("hello界面");
         return "hello form!";
+    }
+
+    /**
+     * 某月部门内所有成员的加班记录
+     * @param month
+     * @return
+     */
+    @RequestMapping(value = "/getAllRecordsOfMonth")
+    @ResponseBody
+    public List<Records> getAllRecordsOfMonth(@RequestParam String month) throws Exception{
+        FileOutputStream path = new FileOutputStream("E:\\产品研发中心二部" + TimeUtil.lastMonth() + "月加班记录.xls");
+        SendRecordsByMail.excelGenerate(recordsService.getAllRecordsOfMonth(month), path);
+        return recordsService.getAllRecordsOfMonth(month);
     }
 
 

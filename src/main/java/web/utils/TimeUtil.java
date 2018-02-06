@@ -10,11 +10,12 @@ import java.util.Date;
  */
 public class TimeUtil {
 
-//    public static void main(String args[]){
-//        System.out.println(calendar.getTime());
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-//        System.out.println(simpleDateFormat.format(calendar.getTime()));
-//    }
+    public static String lastMonth(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);//上个月
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM");
+        return simpleDateFormat.format(calendar.getTime());
+    }
 
     public static String nowTime(String dateFormat){
         Calendar calendar = Calendar.getInstance();

@@ -18,6 +18,28 @@ public class RecordsService {
    @Autowired
    private RecordsDao recordsDao;
 
+//   public List<Records> test1(){
+//       List<Records> recordss = null;
+//       try {
+//           recordss = recordsDao.getRecordsByName1();
+//       }catch (Exception exc){
+//           logger.error("查询出错");
+//           exc.printStackTrace();
+//       }
+//       return recordss;
+//   }
+
+    public List<Records> getAllRecordsOfMonth(String month){
+        List<Records> recordss = null;
+        try {
+            recordss = recordsDao.getDepartmentRecordsByMonth(month + "-%");
+        }catch (Exception exc){
+            logger.error("查询出错");
+            exc.printStackTrace();
+        }
+        return recordss;
+    }
+
     /**
      * 根据openId和date查找记录
      * @param openId

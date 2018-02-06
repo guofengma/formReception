@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import web.entity.User;
 
+import javax.validation.OverridesAttribute;
+import java.util.List;
+
 /**
  * Created by qaa on 2017/10/25.
  */
