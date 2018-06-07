@@ -44,7 +44,13 @@ public class SendRecordsByMail {
         //从数据库读取上月部门加班记录，并生成excel文件
         List<Records> records = recordsService.getAllRecordsOfMonth(TimeUtil.lastMonth());
 //        FileOutputStream path = new FileOutputStream("E:\\产品研发中心二部" + TimeUtil.lastMonth() + "月加班记录.xls");
-        FileOutputStream path = new FileOutputStream("/data/records/产品研发中心二部" + TimeUtil.lastMonth() + "月加班记录.xls");
+        FileOutputStream path = null;
+        try {
+            path = new FileOutputStream("/data/records/产品研发中心二部" + TimeUtil.lastMonth() + "月加班记录.xls");
+        }catch (IOException exc){
+            logger.error("error in file object creating: ", exc);
+            return;
+        }
         excelGenerate(records, path);
 
         String to = "shenminyan@ctsi.com.cn";//收件人
